@@ -93,7 +93,7 @@ interface Collection<E> ... {
 ```
 
 <!-- The **wildcard type argument** `? extends E` indicates that this method accepts a collection of objects of `E` *or some subtype of* `E`, not just `E` itself. -->
-**Маска для аргумента** `? extends E` указывает на то, что этот метод принимает коллекцию объектов E *или некоего типа унаследованного от* `E`, а не сам `E`.
+**Маска для аргумента** `? extends E` указывает на то, что этот метод принимает коллекцию объектов `E` *или некоего типа унаследованного от* `E`, а не сам `E`.
 <!-- This means that we can safely **read** `E`'s from items (elements of this collection are instances of a subclass of E), but **cannot write** to -->
 <!-- it since we do not know what objects comply to that unknown subtype of `E`. -->
 <!-- In return for this limitation, we have the desired behaviour: `Collection<String>` *is* a subtype of `Collection<? extends Object>`. -->
@@ -106,7 +106,7 @@ interface Collection<E> ... {
 <!-- The key to understanding why this trick works is rather simple: if you can only **take** items from a collection, then using a collection of `String`s -->
 <!-- and reading `Object`s from it is fine. Conversely, if you can only _put_ items into the collection, it's OK to take a collection of -->
 <!-- `Object`s and put `String`s into it: in Java we have `List<? super String>` a **supertype** of `List<Object>`. -->
-Ключом к пониманию, почему этот трюк работает, является довольно простая мысль: использование коллекции `String`'ов и чтение из неё `Object`ов нормально только в случае, если  вы **берёте** элементы из коллекции. Наоборот, если вы только _вносите_ элементы в коллекцию, то нормально брать коллекцию `Object`'ов и помещать в неё `String`и: в <b>Java</b> есть `List<? super String>`, **супертип** `List<Object>`'a.
+Ключом к пониманию, почему этот трюк работает, является довольно простая мысль: использование коллекции `String`'ов и чтение из неё `Object`'ов нормально только в случае, если  вы **берёте** элементы из коллекции. Наоборот, если вы только _вносите_ элементы в коллекцию, то нормально брать коллекцию `Object`'ов и помещать в неё `String`'и: в <b>Java</b> есть `List<? super String>`, **супертип** `List<Object>`'a.
 
 <!-- The latter is called **contravariance**, and you can only call methods that take String as an argument on `List<? super String>` -->
 <!-- (e.g., you can call `add(String)` or `set(int, String)`), while -->
@@ -117,6 +117,7 @@ interface Collection<E> ... {
 Джошуа Блок (Joshua Block) называет объекты:
 - **Производителями** (ориг.:_producers_), если вы только **читаете** из них
 - **Потребителями** (ориг.: _consumers_), если вы только **записываете** в них
+
 Его рекомендация: "*Для максимальной гибкости используйте маски (ориг. wildcards) на входных параметрах, которые представляют производителей или потребителей*"
 
 <!-- *PECS stands for Producer-Extends, Consumer-Super.* -->

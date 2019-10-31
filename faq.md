@@ -16,7 +16,7 @@ Kotlin - OSS-статически типизированный язык прог
 
 ### Какова текущая версия Kotlin?
 
-Последняя выпущенная версия - 1.2.71, опубликована в сентябре 2018 г.
+Последняя выпущенная версия - 1.3.40, опубликована в 19 июня 2019 г.
 
 ### Свободен ли Kotlin?
 
@@ -154,25 +154,24 @@ Kotlin разрабатывается в основном группой инж�
 [StackOverflow](http://stackoverflow.com/questions/tagged/kotlin) и, наиболее активно, [Kotlin Slack](http://slack.kotlinlang.org)
 (примерно 7000 участников в мае 2017).
 
-### Are there Kotlin events?
+### Проходят ли какие-то мероприятия по Kotlin?
 
-Yes. There are many User Groups and Meetups now focused exclusively around Kotlin. You can find [a list on the web site](https://kotlinlang.org/community/user-groups.html).
-In addition there are community organised [Kotlin Nights](https://kotlinlang.org/community/kotlin-nights.html) events around the world.
+Да. Сейчас много пользовательских групп и митапов, которые сосредоточены на Kotlin. Список данных мероприятий можно найти [на этом сайте](https://kotlinlang.org/community/user-groups.html). Также во всем мире проводятся специальные мероприятия - [Kotlin Nights](https://kotlinlang.org/community/kotlin-nights.html)
 
-### Is there a Kotlin conference?
+### Проходят ли конференции, посвящённые Kotlin?
 
-Yes. The first official [KotlinConf](https://kotlinconf.com), taking place in San Francisco 2-3 November 2017.
-Kotlin is also being covered in different conferences worldwide. You can find a list of [upcoming talks on the web site](https://kotlinlang.org/community/talks.html?time=upcoming).
+Да. Первая официальная конференция - [KotlinConf](https://kotlinconf.com) - прошла в Сан-Франциско со 2 по 3 ноября 2017 года.
+Kotlin также обсуждается во время различных конференций по всему миру. Вы можете найти список [ближайших конференций на этом сайте](https://kotlinlang.org/community/talks.html?time=upcoming).
 
 ### Есть ли Kotlin в социальных сетях?
 
 Наиболее активный аккаунт [на Twitter](https://twitter.com/kotlin).
 Также есть группа [Google+](https://plus.google.com/communities/104597899765146112928).
 
-### Any other online Kotlin resources?
+### Есть ли ещё какие-либо онлайн-ресурсы по Kotlin?
 
-The web site has a bunch of [online resources](https://kotlinlang.org/community/), including [Kotlin Digests](https://kotlin.link) by community members,
-a [newsletter](http://www.kotlinweekly.net), [подкаст](https://talkingkotlin.com) и так далее.   
+В [сообществе Kotlin](https://kotlinlang.org/community/) вы можете найти множество ресурсов, включая [Дайджесты Kotlin](https://kotlin.link), организуемые сообществом,
+[новостную рассылку](http://www.kotlinweekly.net), [подкаст](https://talkingkotlin.com) и так далее.   
 
 ### Где можно найти HD-логотип Kotlin?
 

@@ -67,25 +67,27 @@ The most important use case is returning from a lambda expression. Recall that w
 
 ``` kotlin
 fun foo() {
-  ints.forEach {
-    if (it == 0) return
-    print(it)
-  }
+    listOf(1, 2, 3, 4, 5).forEach {
+        if (it == 3) return // нелокальный возврат, непосредственно к объекту вызывающему функцию foo()
+        print(it)
+    }
+    println("эта строка не достижима")
 }
 ```
 
 <!--The **return** expression returns from the nearest enclosing function, i.e. `foo`.
 (Note that such non-local returns are supported only for lambda expressions passed to [inline functions](inline-functions.html).)
 If we need to return from a lambda expression, we have to label it and qualify the **return**:-->
-Опертор **return** возвращается из ближаейшей функции, в нашем случае `foo`.
+Опертор **return** возвращается из ближайшей функции, в нашем случае `foo`.
 (Обратите внимание, что такой местный возврат поддерживается только лямбда-выражениями, переданными [инлайн-функциям](inline-functions.html).) Если нам надо вернуться из лямбда-выражения, к оператору стоит поставить метку и тем самым сделать уточнение для ключевого слова **return**:
 
 ``` kotlin
 fun foo() {
-  ints.forEach lit@ {
-    if (it == 0) return@lit
-    print(it)
-  }
+    listOf(1, 2, 3, 4, 5).forEach lit@{
+        if (it == 3) return@lit // локальный возврат внутри лямбды, то есть к циклу forEach
+        print(it)
+    }
+    print(" выполнится с использованием явной метки(list@)")
 }
 ```
 
@@ -95,10 +97,11 @@ such a label has the same name as the function to which the lambda is passed.-->
 
 ``` kotlin
 fun foo() {
-  ints.forEach {
-    if (it == 0) return@forEach
-    print(it)
-  }
+    listOf(1, 2, 3, 4, 5).forEach {
+        if (it == 3) return@forEach // локальный возврат внутри лямбды, то есть к циклу forEach
+        print(it)
+    }
+    print(" выполнится с использованием неявной метки(forEach@)")
 }
 ```
 
@@ -108,10 +111,25 @@ A **return** statement in an anomymous function will return from the anonymous f
 
 ``` kotlin
 fun foo() {
-  ints.forEach(fun(value: Int) {
-    if (value == 0) return
-    print(value)
-  })
+    listOf(1, 2, 3, 4, 5).forEach(fun(value: Int) {
+        if (value == 3) return  // локальный возврат внутри анонимной функци, то есть к циклу forEach
+        print(value)
+    })
+    print(" выполнится с использованием анонимной функции")
+}
+```
+<!--Note that the use of local returns in previous three examples is similar to the use of continue in regular loops. There is no direct equivalent for break, but it can be simulated by adding another nesting lambda and non-locally returning from it:-->
+Обратите внимание, что использование локальных возвратов в предыдущих трех примерах аналогично использованию **continue** в обычных циклах. Прямого эквивалента для **break** не существует, но его можно смоделировать - добавить еще одну вложенную лямбду и нелокально вернуться из нее:
+
+``` kotlin
+fun foo() {
+    run loop@{
+        listOf(1, 2, 3, 4, 5).forEach {
+            if (it == 3) return@loop // нелокальный возврат из лямбды к вызывающему run
+            print(it)
+        }
+    }
+    print(" выполнится с использованием вложенной метки")
 }
 ```
 
