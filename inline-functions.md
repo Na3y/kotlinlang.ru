@@ -14,23 +14,23 @@ url: https://kotlinlang.ru/docs/reference/inline-functions.html
 i.e. those variables that are accessed in the body of the function.
 Memory allocations (both for function objects and classes) and virtual calls introduce runtime overhead.-->
 Использование [функций высшего порядка](lambdas.html) влечёт за собой снижение производительности: во-первых, функция является объектом,
-а во-вторых, происходит захват контекста замыканием, то есть функции становятся доступны переменные, объявленные вне её тела. 
+а во-вторых, происходит захват контекста замыканием, то есть функции становятся доступны переменные, объявленные вне её тела.
 А выделения памяти (как для объекта функции, так и для её класса) и виртуальные вызовы занимают системные ресурсы.
 
 <!--But it appears that in many cases this kind of overhead can be eliminated by inlining the lambda expressions.
 The functions shown below are good examples of this situation. I.e., the `lock()` function could be easily inlined at call-sites.
 Consider the following case:-->
 Но во многих случаях эти "накладные расходы" можно устранить с помощью инлайнинга (встраивания) лямбда-выражений.
-Например, функция `lock()` может быть легко встроена в то место, из которого она вызывается: 
+Например, функция `lock()` может быть легко встроена в то место, из которого она вызывается:
 
-``` kotlin
+```kotlin
 lock(l) { foo() }
 ```
 
 <!--Instead of creating a function object for the parameter and generating a call, the compiler could emit the following code-->
 Вместо создания объекта функции для параметра и генерации вызова, компилятор мог бы выполнить что-то подобное этому коду:
 
-``` kotlin
+```kotlin
 l.lock()
 try {
     foo()
@@ -46,7 +46,7 @@ finally {
 <!--To make the compiler do this, we need to mark the `lock()` function with the `inline` modifier:-->
 Чтобы заставить компилятор поступить именно так, нам необходимо отметить функцию `lock` модификатором `inline`:
 
-``` kotlin
+```kotlin
 inline fun <T> lock(lock: Lock, body: () -> T): T {
     // ...
 }
@@ -58,18 +58,18 @@ into the call site.-->
 
 <!--Inlining may cause the generated code to grow, but if we do it in a reasonable way (do not inline big functions)
 it will pay off in performance, especially at "megamorphic" call-sites inside loops.-->
-Встраивание функций может увеличить количество сгенерированного кода, 
-но если вы будете делать это в разумных пределах (не инлайнить большие функции), то получите прирост производительности, 
+Встраивание функций может увеличить количество сгенерированного кода,
+но если вы будете делать это в разумных пределах (не инлайнить большие функции), то получите прирост производительности,
 особенно при вызове функций с параметрами разного типа внутри циклов.
 
 ## noinline
 
 <!--In case you want only some of the lambdas passed to an inline function to be inlined, you can mark some of your function
 parameters with the `noinline` modifier:-->
-В случае, если вы хотите, чтобы только некоторые лямбды, переданные inline-функции, были встроены, 
+В случае, если вы хотите, чтобы только некоторые лямбды, переданные inline-функции, были встроены,
 вам необходимо отметить модификатором `noinline` те функции-параметры, которые встроены не будут:
 
-``` kotlin
+```kotlin
 inline fun foo(inlined: () -> Unit, noinline notInlined: () -> Unit) {
     // ...
 }
@@ -94,7 +94,7 @@ This means that to exit a lambda, we have to use a [label](returns.html#return-a
 inside a lambda, because a lambda can not make the enclosing function return:-->
 В Kotlin мы можем использовать обыкновенный, безусловный `return` только для выхода из именованной функции или анонимной функции. Это значит, что для выхода из лямбды нам нужно использовать [label](returns.html#return-at-labels). Обычный `return` запрещён внутри лямбды, потому что она не может заставить внешнюю функцию завершиться.
 
-``` kotlin
+```kotlin
 fun foo() {
     ordinaryFunction {
         return // ERROR: can not make `foo` return here
@@ -105,7 +105,7 @@ fun foo() {
 <!--But if the function the lambda is passed to is inlined, the return can be inlined as well, so it is allowed:-->
 Но если функция, в которую передана лямбда, встроена, то `return` также будет встроен, поэтому так делать можно:
 
-``` kotlin
+```kotlin
 fun foo() {
     inlineFunction {
         return // OK: the lambda is inlined
@@ -117,7 +117,7 @@ fun foo() {
 this sort of constructs in loops, which inline functions often enclose:-->
 Такие return (находящиеся внутри лямбд, но завершающие внешнюю функцию) называются нелокальными (`non-local`). Мы используем такие конструкции в циклах, которые являются inline-функциями:
 
-``` kotlin
+```kotlin
 fun hasZeros(ints: List<Int>): Boolean {
     ints.forEach {
         if (it == 0) return true // returns from hasZeros
@@ -132,7 +132,7 @@ is also not allowed in the lambdas. To indicate that, the lambda parameter needs
 the `crossinline` modifier: -->
 Заметьте, что некоторые inline-функции могут вызывать переданные им лямбды не напрямую в теле функции, а из иного контекста, такого как локальный объект или вложенная функция. В таких случаях, нелокальное управление потоком выполнения также запрещено в лямбдах. Чтобы указать это, параметр лямбды необходимо отметить модификатором `crossinline`:
 
-``` kotlin
+```kotlin
 inline fun f(crossinline body: () -> Unit) {
     val f = object: Runnable {
         override fun run() = body()
@@ -153,7 +153,7 @@ inline fun f(crossinline body: () -> Unit) {
 <!--Sometimes we need to access a type passed to us as a parameter:-->
 Иногда нам необходимо получить доступ к типу, переданному в качестве параметра:
 
-``` kotlin
+```kotlin
 fun <T> TreeNode.findParentOfType(clazz: Class<T>): T? {
     var p = parent
     while (p != null && !clazz.isInstance(p)) {
@@ -168,21 +168,21 @@ fun <T> TreeNode.findParentOfType(clazz: Class<T>): T? {
 It’s all fine, but the call site is not very pretty:-->
 В этом примере мы осуществляем проход по дереву и используем рефлексию, чтобы проверить узел на принадлежность к определённому типу. Это прекрасно работает, но вызов выглядит не очень симпатично:
 
-``` kotlin
+```kotlin
 myTree.findParentOfType(MyTreeNodeType::class.java)
 ```
 
 <!--What we actually want is simply pass a type to this function, i.e. call it like this:-->
 Что мы на самом деле хотим, так это передать этой функции тип, то есть вызвать её вот так:
 
-``` kotlin
+```kotlin
 myTree.findParentOfType<MyTreeNodeType>()
 ```
 
 <!--To enable this, inline functions support *reified type parameters*, so we can write something like this:-->
 В таких случаях inline-функции могут принимать *параметры вещественного типа* (reified type parameters). Чтобы включить эту возможность, мы можем написать что-то вроде этого:
 
-``` kotlin
+```kotlin
 inline fun <reified T> TreeNode.findParentOfType(): T? {
     var p = parent
     while (p != null && p !is T) {
@@ -200,7 +200,7 @@ and `as` are working now. Also, we can call it as mentioned above: `myTree.findP
 <!--Though reflection may not be needed in many cases, we can still use it with a reified type parameter:-->
 Хотя рефлексия может быть не нужна во многих случаях, мы всё ещё можем использовать её с параметром вещественного типа:
 
-``` kotlin
+```kotlin
 inline fun <reified T> membersOf() = T::class.members
 
 fun main(s: Array<String>) {
@@ -218,3 +218,50 @@ For a low-level description, see the [spec document](https://github.com/JetBrain
 Тип, который не имеет представление во времени исполнения (например, параметр невещественного или фиктивного типа вроде `Nothing`), не может использоваться в качестве аргумента для параметра вещественного типа.
 
 Для низкоуровневого описания см. [спецификацию](https://github.com/JetBrains/kotlin/blob/master/spec-docs/reified-type-parameters.md).
+
+
+<a name="inline-properties"></a>
+<!-- ## Inline properties (since 1.1) -->
+## Встроенные (inline) свойства (с версии 1.1)
+
+<!-- The `inline` modifier can be used on accessors of properties that don't have a backing field.
+You can annotate individual property accessors: -->
+Модификатор `inline` можно применять к методам доступа свойств, у которых нет теневых полей (backing field). Вы можете аннотировать отдельные методы доступа:
+
+```kotlin
+val foo: Foo
+    inline get() = Foo()
+
+var bar: Bar
+    get() = ...
+    inline set(v) { ... }
+```
+
+<!-- You can also annotate an entire property, which marks both of its accessors as inline: -->
+Также можно аннотировать свойство. В этом случае оба его метода доступа будут отмечены как встроенные:
+
+```kotlin
+inline var bar: Bar
+    get() = ...
+    set(v) { ... }
+```
+
+<!-- At the call site, inline accessors are inlined as regular inline functions. -->
+В месте вызова встроенные методы доступа встраиваются как обычные inline-функции.
+
+
+<a name="public-inline-restrictions"></a>
+<!-- ## Restrictions for public API inline functions -->
+## Ограничения для встроенных функций в public API
+
+<!-- When an inline function is `public` or `protected` and is not a part of a `private` or `internal` declaration, it is considered a [module](visibility-modifiers.html#modules)'s public API. It can be called in other modules and is inlined at such call sites as well. -->
+Если у встроенной функции модификатор доступа `public` или `protected`, при этом она не является частью объявления с модификаторами доступа `private` или `internal`, то она считается public API [модуля](visibility-modifiers.html#modules).
+
+<!-- This imposes certain risks of binary incompatibility caused by changes in the module that declares an inline function in case the calling module is not re-compiled after the change. -->
+Это может привести к появлению двоичной несовместимости, если модуль, который объявляет встроенную функцию, был изменён, но не перекомпилировался после внесения этих изменений.
+
+<!-- To eliminate the risk of such incompatibility being introduced by a change in **non**-public API of a module, the public API inline functions are not allowed to use non-public-API declarations, i.e. `private` and `internal` declarations and their parts, in their bodies. -->
+Чтобы исключить риск двоичной несовместимости, вызванной изменением **non**-public API модуля, public API inline-функциям не разрешается использовать объявления non-public-API, т.е. `private` и `internal`.
+
+<!-- An `internal` declaration can be annotated with `@PublishedApi`, which allows its use in public API inline functions. When an `internal` inline function is marked as `@PublishedApi`, its body is checked too, as if it were public. -->
+Объявление с модификатором `internal` может быть аннотировано при помощи `@PublishedApi`, что позволит его использовать в public API inline-функциях. Когда встроенная функция с модификатором доступа `internal` помечена как `@PublishedApi`, её тело тоже проверяется, как если бы она была public.

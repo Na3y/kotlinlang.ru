@@ -34,7 +34,7 @@
   "Мультиплатформенное программирование": [
     "multiplatform",
     "building-mpp-with-gradle"
-    ],  
+    ],
   "Прочее": [
     "multi-declarations",
     "collections",
@@ -47,8 +47,9 @@
     "exceptions",
     "annotations",
     "reflection",
+    "scope-functions",
     "type-safe-builders",
-    "type-aliases"    
+    "type-aliases"
   ],
   "Справочник": [
     "keyword-reference"
@@ -65,6 +66,9 @@
   "Совместимость с Java": [
     "java-interop",
     "java-to-kotlin-interop"
+  ],
+  "Javascript": [
+    "dynamic-type"
   ],
   "ЧаВо": [
     "faq",

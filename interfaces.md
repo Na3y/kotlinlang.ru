@@ -17,7 +17,7 @@ properties but these need to be abstract or to provide accessor implementations.
 <!--An interface is defined using the keyword *interface*{: .keyword }-->
 Интерфейс определяется ключевым словом **interface**:
 
-``` kotlin
+```kotlin
 interface MyInterface {
     fun bar()
     fun foo() {
@@ -32,7 +32,7 @@ interface MyInterface {
 <!--A class or object can implement one or more interfaces-->
 Класс или объект могут реализовать любое количество интерфейсов:
 
-``` kotlin
+```kotlin
 class Child : MyInterface {
     override fun bar() {
         // тело
@@ -46,9 +46,9 @@ class Child : MyInterface {
 <!--You can declare properties in interfaces. A property declared in an interface can either be abstract, or it can provide
 implementations for accessors. Properties declared in interfaces can't have backing fields, and therefore accessors
 declared in interfaces can't reference them.-->
-Вы можете объявлять свойства в интерфейсах. Свойство, объявленное в интерфейсе, может быть либо абстрактным, либо иметь свою реализацию методов доступа. Свойства в интерфейсах не могут иметь _backing fields_, соответственно, методы доступа к таким свойствам не могут обращаться к _backing fields_.
+Вы можете объявлять свойства в интерфейсах. Свойство, объявленное в интерфейсе, может быть либо абстрактным, либо иметь свою реализацию методов доступа. Свойства в интерфейсах не могут иметь теневых полей, соответственно, методы доступа к таким свойствам не могут обращаться к теневым полям.
 
-``` kotlin
+```kotlin
 interface MyInterface {
     val prop: Int // абстрактное свойство
 
@@ -71,7 +71,7 @@ class Child : MyInterface {
 <!--When we declare many types in our supertype list, it may appear that we inherit more than one implementation of the same method. For example-->
 Когда мы объявлем большое количество типов в списке нашего супертипа, может так выйти, что мы допустим более одной реализации одного и того же метода. Например:
 
-``` kotlin
+```kotlin
 interface A {
     fun foo() { print("A") }
     fun bar()
@@ -101,6 +101,6 @@ class D : A, B {
 <!--Interfaces A and B both declare functions foo() and bar(). Both of them implement foo(), but only B implements bar() (bar() is not marked abstract in A, because this is the default for interfaces, if the function has no body). Now, if we derive a concrete class C from A, we, obviously, have to override bar() and provide an implementation.
 However, if we derive D from A and B, we need to implement all the methods which we have inherited from multiple interfaces, and to specify how exactly D should implement them. This rule applies both to methods for which we've inherited a single implementation (bar()) and multiple implementations (foo()).-->
 Оба интерфейса *A* и *B* объявляют функции *foo()* и *bar()*. Оба реализуют *foo()*, но только *B* содержит реализацию *bar()*
-(*bar()* не отмечен как абстрактный метод в интерфейсе *A*, потому что в интерфейсах это подразумевается по умолчанию, если у функции нет тела). Теперь, если мы унаследуем какой-нибудь класс *C* от *A*, нам, очевидно, придётся переопределять *bar()*, обеспечивать его реализацию. 
+(*bar()* не отмечен как абстрактный метод в интерфейсе *A*, потому что в интерфейсах это подразумевается по умолчанию, если у функции нет тела). Теперь, если мы унаследуемся каким-нибудь классом *C* от интерфейса *A*, нам, очевидно, придётся переопределять метод *bar()*, обеспечивая его реализацию. 
 
-Однако если мы унаследуем *D* от *A* и *B*, нам надо будет переопределять все методы, которые мы унаследовали от этих интерфейсов. Это правило касается как тех методов, у которых имеется только одна реализация (*bar()*), так и тех, у которых есть несколько реализаций (*foo()*).
+Однако, если мы унаследуемся классом *D* от интерфейсов *A* и *B*, нам надо будет переопределять все методы, которые мы унаследовали от этих интерфейсов. Это правило касается как тех методов, у которых имеется только одна реализация (*bar()*), так и тех, у которых есть несколько реализаций (*foo()*).

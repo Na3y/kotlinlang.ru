@@ -22,7 +22,7 @@ the rules were even more strict: classes had to be nested inside the declaration
 
 Чтобы описать изолированный класс, укажите модификатор `sealed` перед именем класса. Изолированный класс может иметь наследников, но все они должны быть объявлены в том же файле, что и сам изолированный класс. (До версии Kotlin 1.1 правила были ещё более строгими: классы должны были быть вложены в объявлении изолированного класса). 
 
-``` kotlin
+```kotlin
 sealed class Expr
 data class Const(val number: Double) : Expr()
 data class Sum(val e1: Expr, val e2: Expr) : Expr()
@@ -36,18 +36,24 @@ fun eval(expr: Expr): Double = when (expr) {
 ```
 
 <!--(The example above uses one additional new feature of Kotlin 1.1: the possibility for data classes to extend other
-classes, including sealed classes.)
-Note that classes which extend subclasses of a sealed class (indirect inheritors) can be placed anywhere, not necessarily in
-the same file.-->
+classes, including sealed classes.)-->
 (Пример выше использует одну новую возможность Kotlin 1.1: расширение классов, включая изолированные, классами данных)
-Обратите внимание, что классы, которые расширяют наследников изолированного класса (непрямые наследники) могут быть помещены где угодно, не обязательно в том же файле.
 
+<!--A sealed class is abstract by itself, it cannot be instantiated directly and can have abstract members.-->
+Сам по себе изолированный класс является абстрактным, он не может быть создан напрямую и может иметь абстрактные компоненты.
+
+<!--Sealed classes are not allowed to have non-private constructors (their constructors are private by default).-->
+Также конструктор изолированного класса не может быть **не приватным** (их конструкторы приватны по умолчанию).
+
+<!--Note that classes which extend subclasses of a sealed class (indirect inheritors) can be placed anywhere, not necessarily in
+the same file.-->
+Обратите внимание, что классы, которые расширяют наследников изолированного класса (непрямые наследники) могут быть помещены где угодно, не обязательно в том же файле.
 
 <!--The key benefit of using sealed classes comes into play when you use them in a [`when` expression](control-flow.html#when-expression). If it's possible to verify that the statement covers all cases, you don't need to add an `else` clause to the statement.-->
 
 Ключевое преимущество от использования изолированных классов проявляется тогда, когда вы используете их в [выражении when](control-flow.html#when-expression). Если возможно проверить что выражение покрывает все случаи, то вам не нужно добавлять `else`.
 
-``` kotlin
+```kotlin
 fun eval(expr: Expr): Double = when(expr) {
     is Expr.Const -> expr.number
     is Expr.Sum -> eval(expr.e1) + eval(expr.e2)
